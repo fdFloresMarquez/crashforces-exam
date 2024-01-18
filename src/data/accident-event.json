@@ -1,0 +1,23 @@
+{
+    "title": "UserAccident 1, this will related to 7 parties in one accident, colision in spring",
+    "dayOf": "10-18-2023",
+    "street": "123 melody st",
+    "city": "Miami",
+    "zip": 33129,
+    "district": " down town",
+    "date": "2023-10-17 17:55:00",
+    "mapLocation": "link",
+    "longitude": 2.333333333,
+    "latitude": 5.7777444444444,
+    "weather": "spring with little clouds",
+    "traffic": "busy traffic",
+    "roadType": "highway",
+    "roadConditions": "good",
+    "lightConditions": "spring with little light",
+    "phone": "951-980-1234",
+    "bulletParty": "I'm the bullet",
+    "policeReport": "link to the police reprot of the accident",
+    "estimateReport": "link to the estimate report",
+    "massRatio": 2.7777,
+    "userEmail": "slevi@gmail.com"
+}
