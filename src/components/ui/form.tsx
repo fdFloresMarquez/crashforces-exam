@@ -74,7 +74,7 @@ const FormItem = React.forwardRef<HTMLDivElement, FormItemProps>(
           ref={ref}
           className={cn(
             orientation === "horizontal"
-              ? "md:flex md:flex-1 md:flex-row md:items-center md:justify-between md:gap-3"
+              ? "space-y-2 md:space-x-0 md:flex md:flex-1 md:flex-row md:items-center md:justify-between md:gap-3"
               : "space-y-2",
             className,
           )}
