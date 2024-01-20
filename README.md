@@ -19,6 +19,7 @@ I tried to use type-safety always.
     * Who was involved
 * I discarded Report pages 4,5 because it showed the same information. 
 * Some information in the json was not used, like impactList for example.
+* Added dark-mode support just as an example, although  the logo would need to be transparent
 
 
 ## Getting Started
