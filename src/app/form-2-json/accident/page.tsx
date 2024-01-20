@@ -1,11 +1,10 @@
 import AccidentForm from "@/components/AccidentForm";
+import { H1 } from "@/components/typography";
 
 export default function AccidentInfoPage() {
   return (
-    <main className="flex min-h-screen flex-col items-center space-y-10 p-24">
-      <h1 className="scroll-m-20 text-4xl font-extrabold tracking-tight text-brand-300 lg:text-5xl">
-        Accident Info
-      </h1>
+    <main className="container flex min-h-screen flex-col items-center space-y-10 md:p-16">
+      <H1>Accident Info</H1>
 
       <AccidentForm />
     </main>
