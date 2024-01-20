@@ -1,10 +1,11 @@
 "use client";
 
-import * as z from "zod";
+import type * as z from "zod";
+
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
+import { useRouter } from "next/navigation";
 
-import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
@@ -13,64 +14,67 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import { collisionFormSchema } from "@/types/collisionForm";
+import { useCollisionFormStore } from "@/stores/useCollisionFormStore";
 
 import { FormFieldItem } from "./FormFieldItem";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "./ui/select";
 import { Card, CardContent } from "./ui/card";
 import { Label } from "./ui/label";
+import NavigationButtons from "./collision-form/NavigationButtons";
 
-const collisionFormOne = z.object({
-  name: z.string(),
-  age: z.coerce.number({ invalid_type_error: "Required" }),
-  gender: z.enum(["female", "male"]),
-  drinking: z.enum(["0", "1"]),
-  atFault: z.enum(["0", "1"]),
-  cellPhoneInUse: z.enum(["0", "1"]),
-  menNumber: z.number({ invalid_type_error: "Required" }),
-  womenNumber: z.number({ invalid_type_error: "Required" }),
-  children04: z.number({ invalid_type_error: "Required" }),
-  children510: z.number({ invalid_type_error: "Required" }),
-  children1015: z.number({ invalid_type_error: "Required" }),
-  payload: z.number({ invalid_type_error: "Required" }),
-  recalls: z.string(),
-  relevantRecalls: z.string(),
-  vehicleId: z.string(),
-  accidentId: z.string(),
-  partyId: z.string(),
-  porder: z.number({ invalid_type_error: "Required" }),
-  vehicleInformation: z.object({
-    year: z.string().transform((val, ctx) => {
-      if (val.length !== 4)
-        ctx.addIssue({
-          code: z.ZodIssueCode.custom,
-          message: "Please enter 4 digits",
-        });
+interface CollisionFormProps {
+  step: 1 | 2 | 3;
+}
 
-      return parseInt(val, 10);
-    }),
-    make: z.string(),
-    model: z.string(),
-    subModel: z.string(),
-    engine: z.string(),
-  }),
-});
+export default function CollisionForm({ step }: CollisionFormProps) {
+  const router = useRouter();
+  const { stepOne, stepThree, stepTwo, setData } = useCollisionFormStore();
 
-export default function CollisionFormOne() {
-  const form = useForm<z.infer<typeof collisionFormOne>>({
-    resolver: zodResolver(collisionFormOne),
+  const form = useForm<z.infer<typeof collisionFormSchema>>({
+    resolver: zodResolver(collisionFormSchema),
+    defaultValues:
+      step === 1
+        ? { ...stepOne, partyId: "party111315car1", porder: 1 }
+        : step === 2
+          ? { ...stepTwo, partyId: "party111315car2", porder: 2 }
+          : { ...stepThree, partyId: "party111315car3", porder: 3 },
   });
 
-  function onSubmit(values: z.infer<typeof collisionFormOne>) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
+  function onSubmit(values: z.infer<typeof collisionFormSchema>) {
+    // eslint-disable-next-line no-console
     console.log(values);
-    alert(JSON.stringify(values));
+
+    setData({ step: step, data: values });
+    router.push(navigation.onNextHref);
   }
+
+  const navigation = {
+    nextLabel:
+      step === 1
+        ? "Continue to Vehicle 2"
+        : step === 2
+          ? "Continue to Vehicle 1"
+          : "Confirm & Continue",
+    backLabel: step === 1 ? null : step === 2 ? "Back to Vehicle 3" : "Back to Vehicle 2",
+    onBackHref:
+      step === 1
+        ? null
+        : step === 2
+          ? "/form-2-json/collision/vehicle-three"
+          : "/form-2-json/collision/vehicle-two",
+    onNextHref:
+      step === 1
+        ? "/form-2-json/collision/vehicle-two"
+        : step === 2
+          ? "/form-2-json/collision/vehicle-one"
+          : "/form-2-json/collision/result",
+  } as const;
 
   return (
     <Form {...form}>
       <form className="w-full space-y-8" onSubmit={form.handleSubmit(onSubmit)}>
-        <ol className="my-6 ml-6 list-decimal  [&>li]:mt-2">
+        <ol className="my-2 ml-2 list-decimal md:my-6 md:ml-6  [&>li]:mt-4">
           <li className="marker:font-bold">
             <FormFieldItem
               control={form.control}
@@ -129,6 +133,7 @@ export default function CollisionFormOne() {
                     </FormControl>
                     <SelectContent>
                       <SelectItem value="BMW20103SE10088">BMW 2010</SelectItem>
+                      <SelectItem value="Jee2019Ren10003">Jee 2019 Ren</SelectItem>
                     </SelectContent>
                   </Select>
                   <FormMessage />
@@ -219,13 +224,15 @@ export default function CollisionFormOne() {
 
             <Card className="mt-5">
               <CardContent className="pt-6">
-                <div className="grid grid-cols-5 space-x-4">
+                <div className="grid gap-2 sm:grid-cols-2 md:grid-cols-4 md:gap-4 lg:grid-cols-5">
                   <FormFieldItem
                     control={form.control}
+                    formRegister={form.register("vehicleInformation.year", { valueAsNumber: true })}
                     label="Year"
                     name="vehicleInformation.year"
                     orientation="vertical"
                     placeholder="Enter the year"
+                    type="number"
                   />
                   <FormField
                     control={form.control}
@@ -278,9 +285,84 @@ export default function CollisionFormOne() {
               </CardContent>
             </Card>
           </li>
+          <li className="marker:font-bold">
+            <Label className="font-bold">Passengers</Label>
+
+            <Card className="mt-5">
+              <CardContent className="pt-6">
+                <div className="grid gap-2 sm:grid-cols-2 md:grid-cols-4 md:gap-4 lg:grid-cols-5">
+                  <FormFieldItem
+                    control={form.control}
+                    formRegister={form.register("menNumber", { valueAsNumber: true })}
+                    label="Men"
+                    name="menNumber"
+                    orientation="vertical"
+                    placeholder="0"
+                    type="number"
+                  />
+
+                  <FormFieldItem
+                    control={form.control}
+                    formRegister={form.register("womenNumber", { valueAsNumber: true })}
+                    label="Women"
+                    name="womenNumber"
+                    orientation="vertical"
+                    placeholder="0"
+                    type="number"
+                  />
+
+                  <FormFieldItem
+                    control={form.control}
+                    formRegister={form.register("children04", { valueAsNumber: true })}
+                    label="Children 0-5"
+                    name="children04"
+                    orientation="vertical"
+                    placeholder="0"
+                    type="number"
+                  />
+
+                  <FormFieldItem
+                    control={form.control}
+                    formRegister={form.register("children510", { valueAsNumber: true })}
+                    label="Children 5-10"
+                    name="children510"
+                    orientation="vertical"
+                    placeholder="0"
+                    type="number"
+                  />
+
+                  <FormFieldItem
+                    control={form.control}
+                    formRegister={form.register("children1015", { valueAsNumber: true })}
+                    label="Children 10-15"
+                    name="children1015"
+                    orientation="vertical"
+                    placeholder="0"
+                    type="number"
+                  />
+                </div>
+              </CardContent>
+            </Card>
+          </li>
+          <li className="marker:font-bold">
+            <FormFieldItem
+              control={form.control}
+              description="Payload in the weight of any additional items in the vehicle"
+              formRegister={form.register("payload", { valueAsNumber: true })}
+              label="Additional Payload"
+              name="payload"
+              orientation="horizontal"
+              placeholder="Enter weight (in pounds)"
+              type="number"
+            />
+          </li>
         </ol>
 
-        <Button type="submit">Submit</Button>
+        <NavigationButtons
+          backLabel={navigation.backLabel}
+          nextLabel={navigation.nextLabel}
+          onBackHref={navigation.onBackHref}
+        />
       </form>
     </Form>
   );
