@@ -20,11 +20,11 @@ export function MainNavigationMenu() {
         <NavigationMenuItem>
           <NavigationMenuTrigger>Form 2 JSON</NavigationMenuTrigger>
           <NavigationMenuContent>
-            <ul className="grid gap-3 p-6 md:w-[400px] lg:w-[500px] ">
+            <ul className="grid gap-3 p-6 md:w-[400px] lg:w-[500px]">
               <ListItem href="/form-2-json/accident" title="Accident Form">
                 Here you can send Accident Info and view the JSON.
               </ListItem>
-              <ListItem href="/form-2-json/collision" title="Collision Form">
+              <ListItem href="/form-2-json/collision/vehicle-three" title="Collision Form">
                 Multi-step form for collecting information about a collision.
               </ListItem>
             </ul>
@@ -33,13 +33,13 @@ export function MainNavigationMenu() {
         <NavigationMenuItem>
           <NavigationMenuTrigger>JSON 2 List</NavigationMenuTrigger>
           <NavigationMenuContent>
-            <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px] ">
-              <ListItem href="/accident" title="Accident Form">
-                How to install dependencies and structure your app.
+            <ul className="grid gap-3 p-6 md:w-[400px] lg:w-[500px]">
+              <ListItem href="/json-2-form/report" title="Report">
+                Here you can view the JSON and the Report.
               </ListItem>
-              <ListItem href="/docs/primitives/typography" title="Tooltip">
-                A popup that displays information related to an element when the element receives
-                keyboard focus or the mouse hovers over it.
+
+              <ListItem href="/json-2-form/report/who-was-involved" title="Who was involved">
+                Here you can view the JSON and the Report.
               </ListItem>
             </ul>
           </NavigationMenuContent>
