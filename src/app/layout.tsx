@@ -21,7 +21,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           disableTransitionOnChange
           enableSystem
           attribute="class"
-          defaultTheme="system"
+          defaultTheme="light"
         >
           <NavBar />
           {children}
