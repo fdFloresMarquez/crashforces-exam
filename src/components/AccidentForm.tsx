@@ -47,7 +47,7 @@ export default function AccidentForm() {
 
   return (
     <Form {...form}>
-      <form className="container w-8/12 space-y-8" onSubmit={form.handleSubmit(onSubmit)}>
+      <form className="container w-full space-y-8 md:w-8/12" onSubmit={form.handleSubmit(onSubmit)}>
         <ol className="my-6 ml-6 list-decimal  [&>li]:mt-2">
           <li className="marker:font-bold">
             <FormFieldItem
@@ -181,7 +181,9 @@ export default function AccidentForm() {
           </li>
         </ol>
 
-        <Button type="submit">Submit</Button>
+        <Button size="lg" type="submit">
+          Submit
+        </Button>
       </form>
     </Form>
   );

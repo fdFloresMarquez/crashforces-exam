@@ -1,6 +1,13 @@
 import type { Control, FieldPath, FieldValues, UseFormRegisterReturn } from "react-hook-form";
 
-import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import {
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 
 interface FormFieldItemProps<
@@ -13,8 +20,10 @@ interface FormFieldItemProps<
   placeholder?: string | undefined;
   label: string;
   orientation?: "horizontal" | "vertical";
+  description?: string;
   // form register is for when you need to transform a string into a number
   formRegister?: UseFormRegisterReturn<TName>;
+  required?: boolean;
 }
 
 export function FormFieldItem<
@@ -26,8 +35,10 @@ export function FormFieldItem<
   type,
   placeholder,
   label,
+  description,
   formRegister,
   orientation = "horizontal",
+  required = false,
 }: FormFieldItemProps<TFieldValues, TName>) {
   return (
     <FormField
@@ -35,15 +46,28 @@ export function FormFieldItem<
       name={name}
       render={({ field }) => (
         <FormItem orientation={orientation}>
-          <FormLabel className="inline-block w-full font-bold">{label}</FormLabel>
+          {orientation === "horizontal" && description ? (
+            <div className="w-full">
+              <FormLabel className="inline-block w-full font-bold">{label}</FormLabel>
+              <FormDescription>{description}</FormDescription>
+            </div>
+          ) : (
+            <FormLabel className="inline-block w-full font-bold">{label}</FormLabel>
+          )}
 
           <FormControl>
             <Input
               placeholder={placeholder}
+              required={required}
               type={type}
               {...(!!formRegister ? formRegister : field)}
             />
           </FormControl>
+
+          {orientation === "vertical" && description ? (
+            <FormDescription>{description}</FormDescription>
+          ) : null}
+
           <FormMessage />
         </FormItem>
       )}
