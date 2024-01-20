@@ -27,7 +27,13 @@ export default function NavBar() {
     <nav className="border-gray-200 bg-white dark:bg-gray-900">
       <div className="mx-auto flex max-w-screen-xl flex-wrap items-center justify-between p-4">
         <Link className="flex items-center space-x-3 rtl:space-x-reverse" href="/">
-          <Image alt="CrashForces Logo" height={200} src="/logo.png" width={300} />
+          <Image
+            alt="CrashForces Logo"
+            className="h-10 w-auto md:h-14"
+            height={200}
+            src="/logo.png"
+            width={300}
+          />
         </Link>
 
         <Sheet open={open} onOpenChange={setOpen}>
@@ -67,7 +73,7 @@ export default function NavBar() {
                   <MobileLink
                     key={navItem.title}
                     className="flex items-center"
-                    href="/asd"
+                    href="/"
                     onOpenChange={setOpen}
                   >
                     {navItem.icon ? <Icon className="mr-2 h-4 w-4" icon={navItem.icon} /> : null}
